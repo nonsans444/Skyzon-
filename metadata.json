@@ -1,0 +1,6 @@
+{
+  "name": "Skyzon Fan Website",
+  "description": "High-converting, immersive fan website for Roblox YouTuber Skyzon featuring the SkyVault, an interactive browser obby, and a global high score leaderboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

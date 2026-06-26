@@ -1,0 +1,80 @@
+{
+  "entities": {
+    "LeaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "High score entry for the Infinite Obby mini-game",
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "The custom gamer tag entered by the user"
+        },
+        "score": {
+          "type": "integer",
+          "description": "The high score representing SkyStars collected"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the high score was achieved"
+        }
+      },
+      "required": ["username", "score", "timestamp"]
+    },
+    "GlobalStats": {
+      "title": "GlobalStats",
+      "description": "Gamified community-wide milestones and metrics",
+      "type": "object",
+      "properties": {
+        "totalClicks": {
+          "type": "integer",
+          "description": "Total click interactions in the squad panel"
+        },
+        "totalWins": {
+          "type": "integer",
+          "description": "Total collective wins or obby checkpoints reached"
+        }
+      },
+      "required": ["totalClicks", "totalWins"]
+    },
+    "VideoSuggestion": {
+      "title": "VideoSuggestion",
+      "description": "User-submitted video concepts for Skyzon's channel",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the suggested video topic"
+        },
+        "username": {
+          "type": "string",
+          "description": "The user who suggested the topic"
+        },
+        "votes": {
+          "type": "integer",
+          "description": "Number of upvotes for this suggestion"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the suggestion was created"
+        }
+      },
+      "required": ["title", "username", "votes", "timestamp"]
+    }
+  },
+  "firestore": {
+    "leaderboard/{documentId}": {
+      "schema": "LeaderboardEntry",
+      "description": "Global scoreboard of the top chillers in the Infinite Obby"
+    },
+    "stats/{documentId}": {
+      "schema": "GlobalStats",
+      "description": "Single-document or multi-document counter for community metrics"
+    },
+    "suggestions/{documentId}": {
+      "schema": "VideoSuggestion",
+      "description": "Video suggestion board where fans upvote ideas"
+    }
+  }
+}

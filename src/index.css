@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-neon-cyan: #00f2ff;
+  --color-neon-purple: #bf00ff;
+}
+
+@layer base {
+  body {
+    background-color: #050012;
+    color: #f8fafc;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Cyber-Nebula scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050012;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #bf00ff, #00f2ff);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #d866ff, #66f7ff);
+}
+
+/* Glassmorphism custom classes conforming to Artistic Flair */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(0, 242, 255, 0.3);
+  box-shadow: 0 0 25px rgba(0, 242, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.text-neon-cyan {
+  color: #00f2ff;
+  text-shadow: 0 0 8px rgba(0, 242, 255, 0.6), 0 0 20px rgba(0, 242, 255, 0.3);
+}
+
+.text-neon-purple {
+  color: #bf00ff;
+  text-shadow: 0 0 8px rgba(191, 0, 255, 0.6), 0 0 20px rgba(191, 0, 255, 0.3);
+}
+
+.border-neon-purple {
+  box-shadow: 0 0 10px rgba(191, 0, 255, 0.2), inset 0 0 5px rgba(191, 0, 255, 0.1);
+}
+
+/* Nebula Animated BG based on new brand colors */
+@keyframes nebula-pulse {
+  0%, 100% {
+    transform: scale(1) translate(0px, 0px);
+    opacity: 0.4;
+  }
+  33% {
+    transform: scale(1.15) translate(20px, -40px);
+    opacity: 0.6;
+  }
+  66% {
+    transform: scale(0.9) translate(-15px, 15px);
+    opacity: 0.35;
+  }
+}
+
+.nebula-purple {
+  filter: blur(120px);
+  background: radial-gradient(circle, rgba(191, 0, 255, 0.25) 0%, rgba(0,0,0,0) 70%);
+  animation: nebula-pulse 15s infinite alternate ease-in-out;
+}
+
+.nebula-blue {
+  filter: blur(120px);
+  background: radial-gradient(circle, rgba(88, 101, 242, 0.25) 0%, rgba(0,0,0,0) 70%);
+  animation: nebula-pulse 20s infinite alternate-reverse ease-in-out;
+}
+
+.nebula-cyan {
+  filter: blur(110px);
+  background: radial-gradient(circle, rgba(0, 242, 255, 0.2) 0%, rgba(0,0,0,0) 70%);
+  animation: nebula-pulse 12s infinite alternate ease-in-out;
+}
+
+/* Keyframes for text animations */
+@keyframes text-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(191, 0, 255, 0.5), 0 0 20px rgba(0, 242, 255, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(191, 0, 255, 0.8), 0 0 40px rgba(0, 242, 255, 0.6);
+  }
+}
+
+.animate-glow {
+  animation: text-glow 4s infinite ease-in-out;
+}
+
+/* Grid overlay background */
+.cyber-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(191, 0, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(191, 0, 255, 0.03) 1px, transparent 1px);
+}

@@ -1,0 +1,79 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net (default deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+    function isValidUsername(username) {
+      return username is string 
+             && username.size() >= 2 
+             && username.size() <= 20;
+    }
+
+    // Leaderboard entries
+    match /leaderboard/{entryId} {
+      allow read: if true;
+      allow create: if isValidId(entryId)
+                   && request.resource.data.keys().hasAll(['username', 'score', 'timestamp'])
+                   && request.resource.data.keys().size() == 3
+                   && isValidUsername(request.resource.data.username)
+                   && request.resource.data.score is int
+                   && request.resource.data.score >= 0
+                   && request.resource.data.score <= 100000
+                   && request.resource.data.timestamp is string;
+      allow update, delete: if false;
+    }
+    
+    // Global stats tracking community milestones
+    match /stats/{statId} {
+      allow read: if true;
+      allow create: if isValidId(statId)
+                    && request.resource.data.keys().hasAll(['totalClicks', 'totalWins'])
+                    && request.resource.data.keys().size() == 2
+                    && request.resource.data.totalClicks is int
+                    && request.resource.data.totalClicks >= 0
+                    && request.resource.data.totalWins is int
+                    && request.resource.data.totalWins >= 0;
+      allow update: if isValidId(statId)
+                    && request.resource.data.keys().hasAll(['totalClicks', 'totalWins'])
+                    && request.resource.data.keys().size() == 2
+                    && request.resource.data.totalClicks is int
+                    && request.resource.data.totalClicks >= resource.data.totalClicks
+                    && request.resource.data.totalWins is int
+                    && request.resource.data.totalWins >= resource.data.totalWins;
+      allow delete: if false;
+    }
+    
+    // Fan video suggestions
+    match /suggestions/{suggestionId} {
+      allow read: if true;
+      allow create: if isValidId(suggestionId)
+                   && request.resource.data.keys().hasAll(['title', 'username', 'votes', 'timestamp'])
+                   && request.resource.data.keys().size() == 4
+                   && request.resource.data.title is string
+                   && request.resource.data.title.size() >= 3
+                   && request.resource.data.title.size() <= 100
+                   && isValidUsername(request.resource.data.username)
+                   && request.resource.data.votes is int
+                   && request.resource.data.votes == 1
+                   && request.resource.data.timestamp is string;
+      allow update: if isValidId(suggestionId)
+                    && request.resource.data.keys().hasAll(['title', 'username', 'votes', 'timestamp'])
+                    && request.resource.data.keys().size() == 4
+                    && request.resource.data.votes is int
+                    && (request.resource.data.votes == resource.data.votes + 1 
+                        || request.resource.data.votes == resource.data.votes - 1)
+                    && request.resource.data.title == resource.data.title
+                    && request.resource.data.username == resource.data.username;
+      allow delete: if false;
+    }
+  }
+}
